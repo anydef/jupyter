@@ -1,0 +1,27 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  jupyter:
+    image: jupyter/all-spark-notebook:latest
+    ports:
+      - "8888:8888"
+      - "4040:4040"
+      - "4041:4041"
+      - "4042:4042"
+      - "4043:4043"
+      - "4044:4044"
+    user: root
+    working_dir: /home/${NB_USER}
+    environment:
+      - NB_USER=admin
+      - GRANT_SUDO=yes
+      - JUPYTER_ENABLE_LAB=yes
+      - RESTARTABLE=yes
+    env_file:
+      - .env
+    volumes:
+       - ${PWD}/workdir/:/home/${NB_USER}/work
+       - ${HOME}/Downloads/:/home/${NB_USER}/downloads
+       - ${HOME}/.aws/:/home/${NB_USER}/.aws/:ro
+       - opt:/opt
+volumes:
+  opt:
